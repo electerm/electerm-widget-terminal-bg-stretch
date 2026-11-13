@@ -1,0 +1,29 @@
+{
+  "name": "terminal-bg-stretch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Stretch the terminal background image to 100% instead of the default cover mode.",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "electerm": {
+    "id": "terminal-bg-stretch",
+    "name": "Stretch Terminal Background",
+    "description": "Stretch the terminal background image to 100% instead of the default cover mode.",
+    "version": "1.0.0",
+    "type": "instance",
+    "singleInstance": true,
+    "persist": true,
+    "configs": [
+      {
+        "name": "autoRun",
+        "label": "Apply on launch",
+        "type": "boolean",
+        "default": true,
+        "description": "Re-apply on every launch. This is the switch that puts the widget in electerm's auto-run list."
+      }
+    ]
+  }
+}
