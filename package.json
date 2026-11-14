@@ -5,6 +5,8 @@
   "description": "Stretch the terminal background image to 100% instead of the default cover mode.",
   "main": "main.js",
   "license": "MIT",
+  "author": "ZHAO Xudong",
+  "homepage": "https://github.com/electerm/electerm-widget-terminal-bg-stretch",
   "scripts": {
     "test": "node --test test/*.test.js"
   },
