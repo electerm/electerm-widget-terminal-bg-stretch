@@ -12,8 +12,8 @@ window — and on every launch after that.
 | | |
 | --- | --- |
 | Shape | instance widget, one switch |
-| Needs | electerm **v5.8.0** or newer |
-| Applies | `style.css`, copied verbatim from the wiki |
+| Needs | electerm **v5.12.0** or newer |
+| Applies | `style.css`, applied by electerm itself |
 | Unit tests | `npm test` — no dependencies, no install |
 
 ## Install
@@ -44,19 +44,29 @@ Overrides `background-size` on the terminal background layer to `100% 100%`.
 
 ## How it works
 
-A widget's own UI is a sandboxed iframe on its own origin, so it cannot touch the
-app's DOM. A widget's `main.js` runs in the **main process** with full Node
-privileges, and there `webContents.insertCSS()` styles a page from the outside.
-That is the whole mechanism — no app setting, no patched build, no injected
-script.
+This is a manifest-only widget: `package.json` + `style.css`, no JavaScript.
 
-- Every renderer reload re-inserts the stylesheet: an inserted sheet lives in the
-  current document and a reload drops it (measured), so `did-finish-load` puts it
-  back.
-- Windows opened later are covered too (`app.on('web-contents-created')`).
-- **Stop removes it properly**: each insert's key is kept per window, and inserts
-  for one window are queued — two overlapping `insertCSS` calls would leave a
-  stylesheet with a key nobody kept, and that one survives Stop.
+```json
+"styles": ["style.css"]
+```
+
+electerm reads that list, applies the css to its own window for as long as the
+widget runs, and takes it off again on **Stop**.
+
+Nothing of the widget runs in the app's process, which is the point: the same
+widget works in the desktop app and in
+[electerm-web](https://github.com/electerm/electerm-web). A browser build has no
+`webContents.insertCSS()` to call — that is why the previous version of this
+widget (a `main.js` of ~180 lines of Electron code, one copy per patch) only
+ever worked on the desktop.
+
+- The stylesheet becomes one `<style data-electerm-widget="terminal-bg-stretch">` tag, rewritten
+  in place, so applying again never stacks tags.
+- A window that loads while the widget runs rebuilds it from the host's registry;
+  the auto-run list applies it again on every launch.
+- Widgets that need to change their css at runtime use
+  `require('@electerm/widget-api').css.apply(css)`. `require('electron')` is
+  refused, so a widget cannot end up desktop-only by accident.
 
 ## Notes
 

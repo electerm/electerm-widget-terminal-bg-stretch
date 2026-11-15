@@ -29,3 +29,9 @@ test('it is an auto-runnable instance widget with one switch', () => {
 test('the stylesheet is the wiki text, not a paraphrase', () => {
   assert.strictEqual(css.trim(), "#container .session-batch-active .xterm-screen::before{background-size: 100% 100% !important;}")
 })
+
+test('it is a manifest-only widget: no server script at all', () => {
+  assert.strictEqual(pkg.main, undefined)
+  assert.deepStrictEqual(pkg.electerm.styles, ['style.css'])
+  assert.strictEqual(fs.existsSync(path.join(ROOT, 'main.js')), false)
+})
