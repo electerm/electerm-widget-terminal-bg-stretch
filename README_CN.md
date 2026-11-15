@@ -42,15 +42,23 @@ electerm/electerm-widget-terminal-bg-stretch
 
 ## 实现方式
 
-插件自己的 UI 是独立 origin 上的沙箱 iframe，碰不到应用的 DOM；但插件的 `main.js` 跑在
-**主进程**里、有完整 Node 权限，而 `webContents.insertCSS()` 正好能从外部给页面套样式。
-机制就这一句话——不需要应用加设置项，不需要改构建，也不注入脚本。
+这是一个纯清单 widget：只有 `package.json` 和 `style.css`，没有 JavaScript。
 
-- 渲染进程每次重载都会重新插入：插入的样式表属于当前文档，重载就没了（实测），所以监听
-  `did-finish-load` 再插一次。
-- 之后新开的窗口也会被覆盖（`app.on('web-contents-created')`）。
-- **Stop 能干净移除**：每个窗口的插入 key 都留着，同一个窗口的插入是排队的——两次重叠的
-  `insertCSS` 会让其中一张样式表失去 key，那张表会一直留到 Stop 之后。
+```json
+"styles": ["style.css"]
+```
+
+electerm 读取这个列表，在 widget 运行期间把 css 应用到自己的窗口，**Stop** 时撤掉。
+
+widget 的代码完全不在应用进程里执行，这正是重点：同一个 widget 在桌面版和
+[electerm-web](https://github.com/electerm/electerm-web) 里都能用。浏览器构建没有
+`webContents.insertCSS()` 可调——这也是这个 widget 上个版本（每个补丁一个约 180 行的
+`main.js`，都是同一份 Electron 代码）只能在桌面版工作的原因。
+
+- 样式表只对应一个 `<style data-electerm-widget="terminal-bg-stretch">` 标签，原地重写，重复应用不会堆叠标签。
+- widget 运行期间窗口重新加载，会从宿主的注册表重建标签；开机时由自动运行列表重新应用。
+- 需要在运行时改自己 css 的 widget 用 `require('@electerm/widget-api').css.apply(css)`。
+  `require('electron')` 会被拒绝，widget 不会在无意中变成只能跑桌面版。
 
 ## 说明
 
