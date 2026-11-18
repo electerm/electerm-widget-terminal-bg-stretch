@@ -1,6 +1,6 @@
 {
   "name": "terminal-bg-stretch",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Stretch the terminal background image to 100% instead of the default cover mode.",
   "license": "MIT",
@@ -13,11 +13,13 @@
     "id": "terminal-bg-stretch",
     "name": "Stretch Terminal Background",
     "description": "Stretch the terminal background image to 100% instead of the default cover mode.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "type": "instance",
     "singleInstance": true,
     "persist": true,
-    "styles": ["style.css"],
+    "styles": [
+      "style.css"
+    ],
     "configs": [
       {
         "name": "autoRun",
@@ -26,6 +28,18 @@
         "default": true,
         "description": "Re-apply on every launch. This is the switch that puts the widget in electerm's auto-run list."
       }
-    ]
+    ],
+    "i18n": {
+      "zh_cn": {
+        "name": "拉伸终端背景",
+        "description": "将终端背景图片拉伸至 100%，而不是默认的 cover 模式。",
+        "configs": {
+          "autoRun": {
+            "label": "启动时生效",
+            "description": "每次启动都重新应用。这个开关会把 widget 加入 electerm 的自动运行列表。"
+          }
+        }
+      }
+    }
   }
 }
