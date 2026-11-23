@@ -11,7 +11,7 @@ const path = require('node:path')
 
 const ROOT = path.join(__dirname, '..')
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'))
-const css = fs.readFileSync(path.join(ROOT, 'style.css'), 'utf8')
+const css = fs.readFileSync(path.join(ROOT, 'style.css'), 'utf8').replace(/\r\n/g, '\n')
 
 test('the id is what the widget folder is called', () => {
   assert.strictEqual(pkg.electerm.id, 'terminal-bg-stretch')
@@ -32,6 +32,6 @@ test('the stylesheet is the wiki text, not a paraphrase', () => {
 
 test('it is a manifest-only widget: no server script at all', () => {
   assert.strictEqual(pkg.main, undefined)
-  assert.deepStrictEqual(pkg.electerm.styles, ['style.css'])
+  assert.deepStrictEqual(pkg.electerm.assets.css, ['style.css'])
   assert.strictEqual(fs.existsSync(path.join(ROOT, 'main.js')), false)
 })

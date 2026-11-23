@@ -17,9 +17,6 @@
     "type": "instance",
     "singleInstance": true,
     "persist": true,
-    "styles": [
-      "style.css"
-    ],
     "configs": [
       {
         "name": "autoRun",
@@ -40,6 +37,11 @@
           }
         }
       }
+    },
+    "assets": {
+      "css": [
+        "style.css"
+      ]
     }
   }
 }
