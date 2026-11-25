@@ -6,7 +6,7 @@
 
 electerm wiki 页面
 [Custom CSS examples](https://github.com/electerm/electerm/wiki/Custom-CSS-examples)
-里的一个 CSS 补丁，打包成插件：装上、点 **Start widget**，补丁立刻生效，之后每次启动都在。
+里的一个 CSS 补丁，打包成插件。
 
 | | |
 | --- | --- |
@@ -27,8 +27,7 @@ electerm/electerm-widget-terminal-bg-stretch
 
 ## 使用
 
-**设置 → 插件 → Stretch Terminal Background** → **Start widget**。保留 *Apply on launch*，每次启动都会自动
-重新应用；在 *Running instances* 里点 **Stop** 可以撤销。
+安装后样式会自动生效。保持 *Apply on launch* 开启，每次启动 electerm 时都会重新应用。在 *Running instances* 中点 **Stop** 即可移除样式。
 
 ## 它改了什么
 

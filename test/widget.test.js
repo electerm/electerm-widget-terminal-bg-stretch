@@ -22,6 +22,7 @@ test('the id is what the widget folder is called', () => {
 test('it is an auto-runnable instance widget with one switch', () => {
   assert.strictEqual(pkg.electerm.type, 'instance')
   assert.strictEqual(pkg.electerm.singleInstance, true)
+  assert.strictEqual(pkg.electerm.autoRun, true)
   assert.deepStrictEqual(pkg.electerm.configs.map(c => c.name), ['autoRun'])
   assert.strictEqual(pkg.electerm.configs[0].default, true)
 })
